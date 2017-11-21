@@ -1,0 +1,203 @@
+$blue: #1389a0;
+
+html{
+  // background: #989898;
+  background: linear-gradient(#083D77,#393E41,#083D77);
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+#root{
+  text-align: center;
+  height: 90%;
+  width: 90%;
+  margin: 5%;
+}
+
+.title{
+  color: blue;
+  margin-bottom: 0;
+  margin: 15px;
+  font-family: 'Russo One', sans-serif;
+// font-family: 'Days One', sans-serif;
+}
+
+.genre{
+  margin-top: 0;
+  // color: #FC1424;
+  color: #E94F37;
+  
+  font-family: 'Russo One', sans-serif;
+}
+
+.movieContainer{
+  position: relative;
+  display: block;
+  height: 375px;
+  width: 250px;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+.info{
+  font-style: italic;
+  // font-family: san-serif;
+font-family: 'Days One', sans-serif;
+  font-size: .9em;
+  margin: 15px;
+  color: #111;
+}
+.movieDetails{
+  position: absolute;
+  // height: 350px;
+  // width: 250px;
+  height: 100%;
+  width: 100%;
+  border: 2px solid #666;
+  display: block;
+  background: linear-gradient(darken($blue,20),$blue,darken($blue,20));
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: (preserve-3d);
+  transition: (-webkit-transform ease 500ms);
+  transition: (transform ease 500ms);
+  overflow: auto;
+  &:hover{
+   border: 2px solid #E94F37; 
+  }
+}
+
+.moviePoster{
+  position: absolute;
+  // height: 350px;
+  // width: 250px;
+  background: #FFF;
+  height: 100%;
+  width: 100%;
+  border: 2px solid #666;
+  display: block;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: (preserve-3d);
+  transition: (-webkit-transform ease 500ms);
+  transition: (transform ease 500ms);
+  background-size: cover;
+  border-radius: 10px;
+  img{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
+  
+  &:hover{
+    border: 2px solid $blue;
+    opacity: .8; 
+  }
+}
+
+.movieCard{
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+  -webkit-transform-style: (preserve-3d);
+  
+  .moviePoster{
+    transform: (rotateY(0deg)); 
+    // z-index: 2;
+  }
+  
+  .movieDetails{
+    transform: (rotateY(-180deg)); 
+    overflow: hidden;
+  }
+  
+  &.flipped{
+    .moviePoster{
+      transform: (rotateY(180deg)); 
+    }
+    .movieDetails{
+      transform: (rotateY(0deg)); 
+      overflow: auto;
+    }
+  }
+}
+
+.searchBar{
+  font-family: sans-serif;
+  margin-bottom: 100px;
+  input[type=text] {
+    width: 250px;
+    height: 25px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    text-align: center;
+    border-radius: 10px;
+    border: solid 2px #666;
+    
+    &:focus {
+    width: 100%;
+    font-style: italic;
+    outline: none;
+    }
+  }
+}
+
+.searchView{
+  &.showView{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: #666 solid 2px;
+    // padding: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+    background: #DDD;
+  }
+}
+
+.header{
+  font-size: 2.6em;
+  margin-bottom: 50px;
+  // font-family: 'Russo One', sans-serif;
+  font-family: 'Days One', sans-serif;
+}
+
+.pageControls{
+  margin-top: 20px;  
+}
+
+.Prev{
+  display: none;
+  &.showBtn{color: red;
+  font-size: 1.2em;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: solid 2px #666;
+  outline: none;
+  margin: 30px;
+  font-family: 'Russo One', sans-serif;
+  display: inline-block;
+  &:hover{
+    background: #666;
+    }}
+}
+
+.Next{
+  display: none;
+  &.showBtn{color: red;
+  font-size: 1.2em;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: solid 2px #666;
+  outline: none;
+  margin: 30px;
+  font-family: 'Russo One', sans-serif;
+  display: inline-block;
+
+  &:hover{
+    background: #666;
+    }}
+}
