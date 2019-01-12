@@ -82,7 +82,7 @@ font-family: 'Days One', sans-serif;
   transform-style: (preserve-3d);
   transition: (-webkit-transform ease 500ms);
   transition: (transform ease 500ms);
-  background-size: cover;
+  background-size: 100% 100%;
   border-radius: 10px;
   img{
     height: 100%;
@@ -200,4 +200,21 @@ font-family: 'Days One', sans-serif;
   &:hover{
     background: #666;
     }}
+}
+
+.moreInfo{
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
+  outline: none;
+  margin-bottom: 10px;
+
+  &:hover{
+    background:  #666;
+    color: white;
+  }
+
+  transition: all 500ms;
 }

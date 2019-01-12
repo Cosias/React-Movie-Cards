@@ -9,16 +9,12 @@ class MovieCard extends Component{
     constructor(props){
     	super(props);
     	this.state = {
-    		flipped: false,
+    		flipped: false
     	};
+
+      this.flipDetails= this.flipDetails.bind(this);
     }
 
-  //   getInitialState: function(){
-  //    return {
-  //      flipped: false
-  //    } 
-  // },
-  
   flipDetails(){
     this.setState({flipped: !this.state.flipped}); 
   }
@@ -26,9 +22,9 @@ class MovieCard extends Component{
   render(){
     return (
       <div className="movieContainer">
-        <div className={"movieCard" + (this.state.flipped?" flipped":"")} onClick={this.flipDetails.bind(this)}>
+        <div className={"movieCard" + (this.state.flipped?" flipped":"")} onClick={this.flipDetails}>
           <MoviePoster title={this.props.title} genre={this.props.genre} poster={this.props.poster}/>
-          <MovieDetails title={this.props.title} genre={this.props.genre} info={this.props.info}/>
+          <MovieDetails title={this.props.title} genre={this.props.genre} info={this.props.info} id={this.props.id}/>
         </div>
       </div>
     );
@@ -42,6 +38,7 @@ class MovieDetails extends Component{
         <h2 className="title">{this.props.title}</h2>
         <h4 className="genre">{this.props.genre}</h4>
         <p className="info">{this.props.info}</p>
+        <button className='moreInfo' onClick={(event)=>{window.open(`https://themoviedb.org/movie/${this.props.id}`,'_blank');event.stopPropagation();} } >More</button>
       </div>
     );
   }
@@ -50,20 +47,12 @@ class MovieDetails extends Component{
 class MoviePoster extends Component{
   render(){
     return (
-      <div className="moviePoster" style={{backgroundImage: "url(" + this.props.poster + ")"}}></div>
+      <div title= {this.props.title} className="moviePoster" style={{backgroundImage: "url(" + this.props.poster + ")"}}></div>
     );
   }
 }
 
 class SearchResults extends Component{
-  // getInitialState: function(){
-  //   return{
-  //     page: 1,
-  //     totalPages: 1,
-  //     searchResults: [],
-  //     searchVal: ""
-  //   } 
-  // },
 
   constructor(props){
   	super(props);
@@ -72,12 +61,16 @@ class SearchResults extends Component{
   		totalPages: 1,
   		searchResults: [],
   		searchVal: ""
+      
   	};
+    this.prevPage= this.prevPage.bind(this);
+    this.nextPage= this.nextPage.bind(this);
+    this.updateSearch= this.updateSearch.bind(this);
   }
 
   renderMovie(movie,index){
     if( (movie.info!=="") && (movie.title!=="") ){
-      return (<MovieCard key={index}title={movie.title} genre={movie.genre} info={movie.info} poster={movie.poster}/>); 
+      return (<MovieCard key={index}title={movie.title} genre={movie.genre} info={movie.info} poster={movie.poster} id={movie.id}/>); 
     }
   }
   
@@ -85,11 +78,11 @@ class SearchResults extends Component{
     if(val===""){
       // this.setState({searchVal:"",searchResults:[],page:1,totalPages:1})
       this.setState({searchVal:"",page:1,totalPages:1},()=> {setTimeout( ()=> {this.setState({
-      searchResults:[]});},300)});      
+      searchResults:[]});},500)});      
     }
     else{
       this.setState({searchVal:val,page:1,totalPages:1},()=> {setTimeout( ()=> {this.setState({
-      searchResults:this.getMovies(this.state.searchVal)});},300)});
+      searchResults:this.getMovies(this.state.searchVal)});},500)});
     }
   }
   
@@ -125,6 +118,7 @@ class SearchResults extends Component{
       async: false,
       dataType: 'json',
       success: function(data){
+        movie.id = data.id;
         movie.title = data.title;  
         movie.genre = data.genres.length>0 ? data.genres[0].name:"";
         movie.info = data.overview;
@@ -156,8 +150,8 @@ class SearchResults extends Component{
     });
     
     return movies.map( 
-      function(data){ return data.id;}).map((data)=>{
-      return this.findMovie(data);
+      (data)=>{ return data.id;}).map((id)=>{
+      return this.findMovie(id);
     });
     }
     else{
@@ -173,13 +167,13 @@ class SearchResults extends Component{
     return (
       <div>
         <h1 className="header">Movie Cards</h1>
-        <SearchBar updateSearch={this.updateSearch.bind(this)}/>
+        <SearchBar updateSearch={this.updateSearch}/>
         <div className={"searchView" + (this.state.searchVal.length>0?" showView":"")}>
           {this.state.searchResults.map(this.renderMovie)}
         </div>
         <div className="pageControls">
-          <PageChange direction="Prev" changePage={this.prevPage.bind(this)} showBtn={this.state.page>1}/>
-          <PageChange direction="Next" changePage={this.nextPage.bind(this)} showBtn={this.state.page<this.state.totalPages}/>
+          <PageChange direction="Prev" changePage={this.prevPage} showBtn={this.state.page>1}/>
+          <PageChange direction="Next" changePage={this.nextPage} showBtn={this.state.page<this.state.totalPages}/>
         </div>
       </div>
     );
